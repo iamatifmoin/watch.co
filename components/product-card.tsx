@@ -1,23 +1,25 @@
-'use client'
+"use client";
 
-import Image from 'next/image'
-import Link from 'next/link'
-import { Star, Eye } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { useState } from 'react'
-import type { Watch } from '@/lib/watch-data'
+import Image from "next/image";
+import Link from "next/link";
+import { Star, Eye } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { useState } from "react";
+import type { Watch } from "@/lib/watch-data";
 
 interface ProductCardProps {
-  watch: Watch
+  watch: Watch;
 }
 
 export function ProductCard({ watch }: ProductCardProps) {
-  const [imageLoaded, setImageLoaded] = useState(false)
-  
-  const discountPercentage = watch.originalPrice 
-    ? Math.round(((watch.originalPrice - watch.price) / watch.originalPrice) * 100)
-    : 0
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  const discountPercentage = watch.originalPrice
+    ? Math.round(
+        ((watch.originalPrice - watch.price) / watch.originalPrice) * 100
+      )
+    : 0;
 
   return (
     <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm border border-border/50 hover:border-border transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10 flex flex-col h-full">
@@ -27,10 +29,13 @@ export function ProductCard({ watch }: ProductCardProps) {
           -{discountPercentage}%
         </Badge>
       )}
-      
+
       {/* Stock Status */}
       {!watch.inStock && (
-        <Badge variant="secondary" className="absolute top-4 right-4 z-10 bg-muted/80 text-muted-foreground">
+        <Badge
+          variant="secondary"
+          className="absolute top-4 right-4 z-10 bg-muted/80 text-muted-foreground"
+        >
           Out of Stock
         </Badge>
       )}
@@ -43,29 +48,29 @@ export function ProductCard({ watch }: ProductCardProps) {
             <div className="w-16 h-16 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
           </div>
         )}
-        
+
         <Image
           src={watch.image}
           alt={watch.name}
           fill
           className={`object-cover transition-all duration-700 group-hover:scale-110 ${
-            imageLoaded ? 'opacity-100' : 'opacity-0'
+            imageLoaded ? "opacity-100" : "opacity-0"
           }`}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           onLoad={() => setImageLoaded(true)}
           priority={false}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-        
+
         {/* Overlay Button */}
         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
           <Link href={`/products/${watch.id}`}>
-            <Button 
-              size="lg" 
+            <Button
+              size="lg"
               className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-primary-foreground shadow-xl transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 border-0"
             >
               <Eye className="w-4 h-4 mr-2" />
-              View Details
+              View
             </Button>
           </Link>
         </div>
@@ -81,7 +86,9 @@ export function ProductCard({ watch }: ProductCardProps) {
           <div className="flex items-center gap-1">
             <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
             <span className="text-sm font-medium">{watch.rating}</span>
-            <span className="text-sm text-muted-foreground">({watch.reviewCount})</span>
+            <span className="text-sm text-muted-foreground">
+              ({watch.reviewCount})
+            </span>
           </div>
         </div>
 
@@ -98,9 +105,9 @@ export function ProductCard({ watch }: ProductCardProps) {
         {/* Features */}
         <div className="flex flex-wrap gap-2">
           {watch.features.slice(0, 2).map((feature, index) => (
-            <Badge 
-              key={index} 
-              variant="secondary" 
+            <Badge
+              key={index}
+              variant="secondary"
               className="text-xs bg-gradient-to-r from-secondary/50 to-secondary/30 text-secondary-foreground border-0"
             >
               {feature}
@@ -127,19 +134,19 @@ export function ProductCard({ watch }: ProductCardProps) {
               )}
             </div>
           </div>
-          
+
           <Link href={`/products/${watch.id}`}>
-            <Button 
-              variant="ghost" 
+            <Button
+              variant="ghost"
               size="sm"
               disabled={!watch.inStock}
               className="bg-gradient-to-r from-secondary/20 to-secondary/10 hover:from-secondary/30 hover:to-secondary/20 transition-all duration-300 rounded-full px-6"
             >
-              {watch.inStock ? 'View Details' : 'Notify Me'}
+              {watch.inStock ? "View Details" : "Notify Me"}
             </Button>
           </Link>
         </div>
       </div>
     </div>
-  )
+  );
 }
